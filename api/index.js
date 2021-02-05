@@ -1,20 +1,39 @@
 const btoa = require("btoa");
 const path = require("path");
-const chromium = require("chrome-aws-lambda");
+let chromium;
+// Check if we are running locally or on Vercel
+if (!process.env.AWS_LAMBDA_FUNCTION_VERSION) {
+  const puppeteer = require("puppeteer");
+  chromium = {
+    puppeteer,
+  };
+} else {
+  chromium = require("chrome-aws-lambda");
+}
 const renderHTML = require("./render-html");
 
-const normalizeTheme = (value, defaultValue) => {
+/**
+ * Normalizes the theme name by adding a prefix `jsonresume-theme` if not present
+ * @param {String} value Name of the theme
+ * @param {String} defaultValue Default Theme
+ */
+const normalizeTheme = (value, defaultValue = "even") => {
   const theme = value || defaultValue;
 
+  // If theme has a relative path provided, immediately return
   if (theme[0] === ".") {
     return theme;
   }
 
   return theme.match("jsonresume-theme-.*")
     ? theme
-    : `jsonresume-theme=${theme}`;
+    : `jsonresume-theme-${theme}`;
 };
 
+/**
+ * Returns the theme Package
+ * @param {String} theme Normalized theme name
+ */
 const getThemePackage = (theme) => {
   if (theme[0] === ".") {
     theme = path.join(process.cwd(), theme, "index.js");
@@ -33,6 +52,11 @@ const getThemePackage = (theme) => {
   }
 };
 
+/**
+ * Parses the `resumeJson` to render a pretty HTML
+ * @param {Object} resumeJson Resume data
+ * @param {String} themeName Name of the theme
+ */
 const parse = async (resumeJson, themeName) => {
   const html = await renderHTML({
     resume: resumeJson,
@@ -47,7 +71,6 @@ module.exports = async (req, res) => {
     const normalizedTheme = normalizeTheme(resumeData.meta.theme, "even");
     const themePackage = getThemePackage(normalizedTheme);
     const html = await parse(resumeData, normalizedTheme);
-
     const browser = await chromium.puppeteer.launch();
     const page = await browser.newPage();
     await page.emulateMediaType(
