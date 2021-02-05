@@ -1,4 +1,3 @@
-const btoa = require("btoa");
 const path = require("path");
 const chromium = require("chrome-aws-lambda");
 
@@ -107,7 +106,9 @@ module.exports = async (req, res) => {
         "screen"
     );
     await page.goto(
-      `data:text/html;base64,${btoa(unescape(encodeURIComponent(html)))}`,
+      `data:text/html;base64,${Buffer.from(
+        unescape(encodeURIComponent(html))
+      ).toString("base64")}`,
       { waitUntil: "networkidle0" }
     );
     if (themePackage.pdfViewport) {
