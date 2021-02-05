@@ -1,16 +1,6 @@
 const btoa = require("btoa");
 const path = require("path");
-let chromium;
-// Check if we are running locally or on Vercel
-if (!process.env.AWS_LAMBDA_FUNCTION_VERSION) {
-  const puppeteer = require("puppeteer");
-  chromium = {
-    puppeteer,
-  };
-} else {
-  chromium = require("chrome-aws-lambda");
-}
-const renderHTML = require("./render-html");
+const chromium = require("chrome-aws-lambda");
 
 /**
  * Normalizes the theme name by adding a prefix `jsonresume-theme` if not present
@@ -63,6 +53,44 @@ const parse = async (resumeJson, themeName) => {
     themePath: themeName,
   });
   return html;
+};
+
+const tryResolve = (...args) => {
+  try {
+    return require.resolve(...args);
+  } catch (err) {
+    return false;
+  }
+};
+
+const renderHTML = async ({ resume, themePath }) => {
+  const cwd = process.cwd();
+  let path;
+
+  if (themePath[0] === ".") {
+    path = tryResolve(path.join(cwd, themePath), { paths: [cwd] });
+    throw new Error(
+      `Theme ${themePath} could not be resolved relative to ${cwd}`
+    );
+  }
+
+  if (!path) {
+    path = tryResolve(themePath, { paths: [cwd] });
+  }
+
+  if (!path) {
+    throw new Error(
+      `theme path ${themePath} could not be resolved from current working directory`
+    );
+  }
+
+  const theme = require(path);
+
+  if (typeof theme?.render !== "function") {
+    throw new Error("theme.render is not a function");
+  }
+
+  return theme.render(resume);
 };
 
 module.exports = async (req, res) => {
