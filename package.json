@@ -1,0 +1,36 @@
+{
+  "name": "resumify-backend",
+  "version": "1.0.0",
+  "description": "Backend resume generator for resumify",
+  "main": "index.js",
+  "author": "Soham Parekh <soham.parekh1998@gmail.com>",
+  "license": "MIT",
+  "dependencies": {
+    "chrome-aws-lambda": "^5.5.0",
+    "puppeteer-core": "^7.0.1"
+  },
+  "devDependencies": {
+    "eslint": "^7.19.0",
+    "eslint-config-prettier": "^7.2.0",
+    "eslint-config-standard": "^16.0.2",
+    "eslint-plugin-import": "^2.22.1",
+    "eslint-plugin-node": "^11.1.0",
+    "eslint-plugin-promise": "^4.2.1",
+    "husky": "^4.3.8",
+    "lint-staged": "^10.5.3",
+    "prettier": "^2.2.1",
+    "pretty-quick": "^3.1.0",
+    "puppeteer": "^7.0.1"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged"
+    }
+  },
+  "lint-staged": {
+    "api/**/*.js": [
+      "eslint",
+      "pretty-quick --staged"
+    ]
+  }
+}
