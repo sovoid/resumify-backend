@@ -1,13 +1,19 @@
 {
-  "name": "resumify-backend",
-  "version": "1.0.0",
-  "description": "Backend resume generator for resumify",
-  "main": "index.js",
-  "author": "Soham Parekh <soham.parekh1998@gmail.com>",
-  "license": "MIT",
+  "name": "server",
+  "version": "0.0.0",
+  "private": true,
+  "scripts": {
+    "start": "node ./bin/www"
+  },
   "dependencies": {
     "btoa": "^1.2.1",
-    "chrome-aws-lambda": "^5.5.0",
+    "cookie-parser": "~1.4.4",
+    "cors": "^2.8.5",
+    "debug": "~2.6.9",
+    "dotenv": "^8.2.0",
+    "ejs": "~2.6.1",
+    "express": "~4.16.1",
+    "http-errors": "~1.6.3",
     "jsonresume-theme-apage": "^1.0.2",
     "jsonresume-theme-class": "^0.1.2",
     "jsonresume-theme-classy": "^1.0.9",
@@ -22,7 +28,8 @@
     "jsonresume-theme-short": "^0.1.7",
     "jsonresume-theme-spartan": "^0.3.0",
     "jsonresume-theme-stackoverflow": "^1.4.0",
-    "puppeteer-core": "^5.5.0"
+    "morgan": "~1.9.1",
+    "puppeteer": "^7.0.1"
   },
   "devDependencies": {
     "@commitlint/cli": "^11.0.0",
@@ -37,9 +44,7 @@
     "husky": "^4.3.8",
     "lint-staged": "^10.5.3",
     "prettier": "^2.2.1",
-    "pretty-quick": "^3.1.0",
-    "puppeteer": "^5.5.0",
-    "vercel": "^21.2.3"
+    "pretty-quick": "^3.1.0"
   },
   "husky": {
     "hooks": {
@@ -48,7 +53,7 @@
     }
   },
   "lint-staged": {
-    "api/**/*.js": [
+    "**/*.js": [
       "eslint",
       "pretty-quick --staged"
     ]

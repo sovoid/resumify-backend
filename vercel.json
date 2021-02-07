@@ -1,8 +1,0 @@
-{
-  "redirects": [
-    {
-      "source": "/",
-      "destination": "https://github.com/und3fined-v01d/resumify-backend"
-    }
-  ]
-}
