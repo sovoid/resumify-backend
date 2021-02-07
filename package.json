@@ -3,6 +3,7 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
+    "dev": "nodemon ./bin/www",
     "start": "node ./bin/www"
   },
   "dependencies": {
@@ -29,6 +30,7 @@
     "jsonresume-theme-spartan": "^0.3.0",
     "jsonresume-theme-stackoverflow": "^1.4.0",
     "morgan": "~1.9.1",
+    "nodemon": "^2.0.7",
     "puppeteer": "^7.0.1"
   },
   "devDependencies": {
