@@ -8,7 +8,9 @@
   "dependencies": {
     "btoa": "^1.2.1",
     "cookie-parser": "~1.4.4",
+    "cors": "^2.8.5",
     "debug": "~2.6.9",
+    "dotenv": "^8.2.0",
     "ejs": "~2.6.1",
     "express": "~4.16.1",
     "http-errors": "~1.6.3",
@@ -26,7 +28,8 @@
     "jsonresume-theme-short": "^0.1.7",
     "jsonresume-theme-spartan": "^0.3.0",
     "jsonresume-theme-stackoverflow": "^1.4.0",
-    "morgan": "~1.9.1"
+    "morgan": "~1.9.1",
+    "puppeteer": "^7.0.1"
   },
   "devDependencies": {
     "@commitlint/cli": "^11.0.0",
