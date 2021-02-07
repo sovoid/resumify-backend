@@ -10,7 +10,10 @@ const generatePDF = async (resumeData) => {
     const themePackage = getThemePackage(normalizedTheme);
     const html = await parse(resumeData, normalizedTheme);
 
-    const browser = await puppeteer.launch();
+    const browser = await puppeteer.launch({
+      headless: true,
+      args: ["--no-sandbox", "--disable-setuid-sandbox"],
+    });
     const page = await browser.newPage();
     await page.emulateMediaType(
       (themePackage.pdfRenderOptions &&
