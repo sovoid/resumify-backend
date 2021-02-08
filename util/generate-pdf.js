@@ -35,6 +35,7 @@ const generatePDF = async (resumeData) => {
     await browser.close();
     return pdf;
   } catch (err) {
+    console.log(err);
     throw new Error("Failed to generate PDF");
   }
 };
